@@ -98,3 +98,33 @@ module "private_instance" {
     }
   ]
 }
+
+
+
+data "aws_ssm_parameter" "api_server_ami" {
+  name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+}
+
+module "api_server" {
+  source = "../../../../modules/ec2"
+
+  instance_name               = "api-server"
+  instance_type               = "t3.large"
+  ami_id                      = var.ami_id != "" ? var.ami_id : data.aws_ssm_parameter.api_server_ami.value
+  subnet_id                   = var.subnet_id != "" ? var.subnet_id : data.aws_subnets.private.ids[0]
+  vpc_id                      = var.vpc_id != "" ? var.vpc_id : data.aws_vpc.existing.id
+  associate_public_ip_address = false
+  kms_key_id                  = aws_kms_key.ebs.arn
+  tags                        = var.tags
+
+  ingress_rules = [
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["10.0.0.0/8"]
+      description = "Allow HTTPS from internal network"
+    }
+  ]
+}
+
