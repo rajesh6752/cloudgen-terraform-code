@@ -1,15 +1,3 @@
-resource "aws_kms_key" "ebs" {
-  description             = "KMS key for EBS volume encryption"
-  deletion_window_in_days = 7
-  enable_key_rotation     = true
-  tags                    = var.tags
-}
-
-resource "aws_kms_alias" "ebs" {
-  name          = "alias/${var.environment}-ebs-key"
-  target_key_id = aws_kms_key.ebs.key_id
-}
-
 module "public_instance" {
   source = "../../../../modules/ec2"
 
@@ -21,7 +9,7 @@ module "public_instance" {
   associate_public_ip_address = true
   data_volume_count           = 2
   data_volume_size            = 50
-  kms_key_id                  = aws_kms_key.ebs.arn
+  kms_key_arn                 = data.aws_kms_alias.central_kms.target_key_arn
   tags                        = var.tags
 
   ingress_rules = [
@@ -46,7 +34,7 @@ module "private_instance" {
   associate_public_ip_address = false
   data_volume_count           = 2
   data_volume_size            = 50
-  kms_key_id                  = aws_kms_key.ebs.arn
+  kms_key_arn                 = data.aws_kms_alias.central_kms.target_key_arn
   tags                        = var.tags
 
   ingress_rules = [
@@ -69,7 +57,7 @@ module "api_server" {
   subnet_id                   = var.subnet_id != "" ? var.subnet_id : data.aws_subnets.private.ids[0]
   vpc_id                      = var.vpc_id != "" ? var.vpc_id : data.aws_vpc.existing.id
   associate_public_ip_address = false
-  kms_key_id                  = aws_kms_key.ebs.arn
+  kms_key_arn                 = data.aws_kms_alias.central_kms.target_key_arn
   tags                        = var.tags
 
   ingress_rules = [

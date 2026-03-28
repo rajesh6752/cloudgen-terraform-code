@@ -80,7 +80,7 @@ resource "aws_instance" "this" {
 
   root_block_device {
     encrypted   = true
-    kms_key_id  = var.kms_key_id
+    kms_key_id  = var.kms_key_arn
     volume_type = "gp3"
   }
 
@@ -93,7 +93,7 @@ resource "aws_ebs_volume" "this" {
   size              = var.data_volume_size
   type              = "gp3"
   encrypted         = true
-  kms_key_id        = var.kms_key_id
+  kms_key_id        = var.kms_key_arn
 
   tags = merge(var.tags, { Name = "${var.instance_name}-data-vol-${count.index + 1}" })
 }
