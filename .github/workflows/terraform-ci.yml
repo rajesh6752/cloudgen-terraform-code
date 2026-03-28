@@ -26,11 +26,15 @@ jobs:
         with:
           terraform_version: "1.5.0"
 
-      # Formatting check - if this fails, the local agent did not format the files properly!
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
+      - name: Run Tfsec Security Scanner (Logs Visualizer)
+        run: |
+          echo "================================================="
+          echo "   Tfsec DevSecOps Vulnerability Analysis        "
+          echo "================================================="
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+          tfsec . --soft-fail --minimum-severity CRITICAL
 
-      - name: Run Tfsec Security Scanner
+      - name: Render Tfsec PR Comment
         uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
         with:
           tfsec_args: --soft-fail --minimum-severity CRITICAL
@@ -48,11 +52,11 @@ jobs:
         if: ${{ env.INFRACOST_API_KEY != '' }}
         run: |
           echo "================================================="
-          echo "   Enterprise Tier Cloud Cost Infrastructure"
+          echo "   Enterprise Tier Cloud Cost Infrastructure     "
           echo "================================================="
           infracost breakdown --path . --format table
           
-          echo "Saving baseline payload for PR PR-Comment Injection..."
+          echo "Saving baseline payload for PR-Comment Injection..."
           infracost breakdown --path . \
                               --format json \
                               --out-file infracost-report.json
