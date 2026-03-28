@@ -1,2 +1,6 @@
-account_id = "123456789012"
-region     = "us-east-1"
+region = "us-east-1"
+
+default_tags = {
+  Account   = "nonprod"
+  ManagedBy = "Terraform"
+}

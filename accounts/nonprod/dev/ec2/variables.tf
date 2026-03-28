@@ -1,27 +1,46 @@
 variable "region" {
   type        = string
-  description = "AWS Region"
-  default     = "us-east-1"
+  description = "The AWS region to deploy resources in"
 }
 
 variable "environment" {
   type        = string
-  description = "Environment name"
+  description = "The environment name (e.g., dev, qa)"
+}
+
+variable "instance_name" {
+  type        = string
+  description = "The name of the EC2 instance"
 }
 
 variable "instance_type" {
   type        = string
-  description = "EC2 instance type"
+  description = "The type of the EC2 instance"
 }
 
-variable "tags" {
-  type        = map(string)
-  description = "Tags to apply to resources"
-  default     = {}
-}
-
-variable "vpc_name" {
+variable "vpc_id" {
   type        = string
-  description = "Name of the existing VPC"
-  default     = "main-vpc"
+  description = "The ID of the VPC"
+}
+
+variable "vpc_cidr" {
+  type        = string
+  description = "The CIDR block of the VPC"
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "The ID of the private subnet"
+}
+
+variable "kms_key_id" {
+  type        = string
+  description = "The KMS key ID for EBS volume encryption"
+  default     = null
+}
+
+variable "default_tags" {
+  type        = map(string)
+  description = "Default tags to apply to all resources"
+  default     = {}
 }
