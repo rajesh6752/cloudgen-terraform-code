@@ -50,8 +50,8 @@ jobs:
           output_format: cli
           quiet: true
           download_external_modules: true
-          # Instruct Checkov to restrict execution to CRITICAL severity rules
-          checkov_flags: "--check CRITICAL"
+          # Instruct Checkov to restrict execution to CRITICAL severity rules using native input
+          check: CRITICAL
 
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
