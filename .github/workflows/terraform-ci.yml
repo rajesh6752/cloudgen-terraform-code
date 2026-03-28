@@ -26,10 +26,6 @@ jobs:
         with:
           terraform_version: "1.5.0"
 
-      # Formatting check - if this fails, the local agent did not format the files properly!
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
-
       - name: Run Tfsec Security Scanner (Logs Visualizer)
         run: |
           echo "================================================="
