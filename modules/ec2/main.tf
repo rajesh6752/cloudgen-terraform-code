@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 resource "aws_iam_role" "this" {
-  name               = "${var.instance_name}-role"
+  name = "${var.instance_name}-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
