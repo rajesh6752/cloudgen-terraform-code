@@ -1,7 +1,8 @@
-environment   = "dev"
-instance_type = "t3.medium"
-tags = {
-  Environment = "dev"
-  Project     = "ec2-deployment"
-  ManagedBy   = "Terraform"
-}
+environment    = "dev"
+instance_name  = "api-server"
+instance_type  = "t3.large"
+ami_id         = "ami-0c101f26f147fa7fd"
+subnet_id      = "subnet-0123456789abcdef0"
+vpc_id         = "vpc-0123456789abcdef0"
+vpc_cidr_block = "10.0.0.0/16"
+kms_key_id     = "alias/aws/ebs"

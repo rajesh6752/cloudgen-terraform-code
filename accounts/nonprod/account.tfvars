@@ -1,2 +1,7 @@
-account_id = "123456789012"
-region     = "us-east-1"
+region = "us-east-1"
+
+default_tags = {
+  Project   = "api-platform"
+  ManagedBy = "Terraform"
+  Account   = "nonprod"
+}
