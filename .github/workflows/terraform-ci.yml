@@ -47,6 +47,12 @@ jobs:
           INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
         if: ${{ env.INFRACOST_API_KEY != '' }}
         run: |
+          echo "================================================="
+          echo "   Enterprise Tier Cloud Cost Infrastructure"
+          echo "================================================="
+          infracost breakdown --path . --format table
+          
+          echo "Saving baseline payload for PR PR-Comment Injection..."
           infracost breakdown --path . \
                               --format json \
                               --out-file infracost-report.json
