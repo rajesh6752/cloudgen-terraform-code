@@ -43,7 +43,9 @@ jobs:
           
       - name: Run Infracost Cost Breakdown
         # Native workaround to check if GitHub Secret is populated
-        if: ${{ secrets.INFRACOST_API_KEY != '' }}
+        env:
+          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+        if: ${{ env.INFRACOST_API_KEY != '' }}
         run: |
           infracost breakdown --path . \
                               --format json \
