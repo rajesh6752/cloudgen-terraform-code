@@ -13,7 +13,6 @@ jobs:
   devsecops-pipeline:
     runs-on: ubuntu-latest
     
-    # We need repository write permissions for PR commenters (Tfsec & Infracost)
     permissions:
       contents: read
       pull-requests: write
@@ -27,15 +26,15 @@ jobs:
         with:
           terraform_version: "1.5.0"
 
+      # Formatting check - if this fails, the local agent did not format the files properly!
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
-        continue-on-error: true
 
-      - name: Install Tfsec
-        run: curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-
-      - name: Tfsec Security Scan
-        run: tfsec . --no-color --soft-fail --minimum-severity CRITICAL
+      - name: Run Tfsec Security Scanner
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          tfsec_args: --soft-fail --minimum-severity CRITICAL
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
@@ -43,10 +42,8 @@ jobs:
           api-key: ${{ secrets.INFRACOST_API_KEY }}
           
       - name: Run Infracost Cost Breakdown
-        # Only run Infracost if the API key is configured by the user
-        if: env.INFRACOST_API_KEY != ''
-        env:
-          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+        # Native workaround to check if GitHub Secret is populated
+        if: ${{ secrets.INFRACOST_API_KEY != '' }}
         run: |
           infracost breakdown --path . \
                               --format json \
