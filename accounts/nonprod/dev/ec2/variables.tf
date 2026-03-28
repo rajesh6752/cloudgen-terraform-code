@@ -25,3 +25,24 @@ variable "vpc_name" {
   description = "Name of the existing VPC"
   default     = "main-vpc"
 }
+
+
+
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID for the environment"
+  default     = ""
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "Subnet ID for the environment"
+  default     = ""
+}
+
+variable "ami_id" {
+  type        = string
+  description = "AMI ID for the environment"
+  default     = ""
+}
+
