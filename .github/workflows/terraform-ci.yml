@@ -1,0 +1,61 @@
+name: Enterprise DevSecOps CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+    paths:
+      - '**.tf'
+      - '**.tfvars'
+
+jobs:
+  devsecops-pipeline:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout Infrastructure Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.0"
+
+      # Formatting check - if this fails, the local agent did not format the files properly!
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Run Tfsec Security Scanner
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          tfsec_args: --soft-fail --minimum-severity CRITICAL
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v2
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+          
+      - name: Run Infracost Cost Breakdown
+        # Native workaround to check if GitHub Secret is populated
+        if: ${{ secrets.INFRACOST_API_KEY != '' }}
+        run: |
+          infracost breakdown --path . \
+                              --format json \
+                              --out-file infracost-report.json
+          
+          infracost comment github --path infracost-report.json \
+                                   --repo $GITHUB_REPOSITORY \
+                                   --pull-request ${{ github.event.pull_request.number }} \
+                                   --github-token ${{ secrets.GITHUB_TOKEN }} \
+                                   --behavior update
+
+      # Note for Terraform Plan: 
+      # Because this repository separates caller modules (accounts/) from definitions (modules/),
+      # a generic terraform plan requires AWS credentials and specific target directories.
+      # The local Agent already strictly performs 'terraform plan -detailed-exitcode' before the PR is created!
