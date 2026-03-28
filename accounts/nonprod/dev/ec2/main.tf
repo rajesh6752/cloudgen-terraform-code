@@ -1,42 +1,3 @@
-data "aws_vpc" "existing" {
-  filter {
-    name   = "tag:Name"
-    values = [var.vpc_name]
-  }
-}
-
-data "aws_subnets" "public" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.existing.id]
-  }
-  filter {
-    name   = "tag:Tier"
-    values = ["Public"]
-  }
-}
-
-data "aws_subnets" "private" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.existing.id]
-  }
-  filter {
-    name   = "tag:Tier"
-    values = ["Private"]
-  }
-}
-
-data "aws_ami" "amazon_linux_2023" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["al2023-ami-2023.*-x86_64"]
-  }
-}
-
 resource "aws_kms_key" "ebs" {
   description             = "KMS key for EBS volume encryption"
   deletion_window_in_days = 7
@@ -99,12 +60,6 @@ module "private_instance" {
   ]
 }
 
-
-
-data "aws_ssm_parameter" "api_server_ami" {
-  name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
-}
-
 module "api_server" {
   source = "../../../../modules/ec2"
 
@@ -127,4 +82,3 @@ module "api_server" {
     }
   ]
 }
-
