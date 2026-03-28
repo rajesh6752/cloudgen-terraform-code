@@ -40,3 +40,10 @@ data "aws_ami" "amazon_linux_2023" {
 data "aws_ssm_parameter" "api_server_ami" {
   name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
 }
+
+
+
+data "aws_kms_alias" "central_kms" {
+  name = "alias/central-kms-dev"
+}
+
