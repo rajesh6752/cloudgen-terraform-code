@@ -26,6 +26,17 @@ jobs:
         with:
           terraform_version: "1.5.0"
 
+      - name: Run Checkov Security Scanner
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          framework: terraform
+          soft_fail: true
+          output_format: cli
+          quiet: true
+          download_external_modules: true
+
       - name: Run Tfsec Security Scanner (Logs Visualizer)
         run: |
           echo "================================================="
@@ -39,19 +50,6 @@ jobs:
         with:
           tfsec_args: --soft-fail --minimum-severity CRITICAL
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run Checkov Security Scanner
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
-          framework: terraform
-          soft_fail: true
-          output_format: cli
-          quiet: true
-          download_external_modules: true
-          # Instruct Checkov to restrict execution to CRITICAL severity rules using native input
-          check: CRITICAL
 
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
