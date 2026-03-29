@@ -50,7 +50,14 @@ jobs:
                  cd $dir
                  
                  terraform init -backend=false
-                 terraform plan -no-color || echo "Plan command exited with non-zero - Please configure your AWS Credentials in GitHub Secrets to completely resolve external data sources."
+                 
+                 PLAN_CMD="terraform plan -var-file ../../account.tfvars -var-file ../env.tfvars"
+                 if [ -f "./overrides.tfvars" ]; then
+                   PLAN_CMD="$PLAN_CMD -var-file ./overrides.tfvars"
+                 fi
+                 
+                 echo "Executing: $PLAN_CMD -out plan.out -no-color"
+                 $PLAN_CMD -out plan.out -no-color || echo "Plan command exited with non-zero - Please configure your AWS Credentials in GitHub Secrets to completely resolve external data sources."
                  
                  cd - > /dev/null
                fi
@@ -108,8 +115,3 @@ jobs:
                                    --pull-request ${{ github.event.pull_request.number }} \
                                    --github-token ${{ secrets.GITHUB_TOKEN }} \
                                    --behavior update
-
-      # Note for Terraform Plan: 
-      # Because this repository separates caller modules (accounts/) from definitions (modules/),
-      # a generic terraform plan requires AWS credentials and specific target directories.
-      # The local Agent already strictly performs 'terraform plan -detailed-exitcode' before the PR is created!
