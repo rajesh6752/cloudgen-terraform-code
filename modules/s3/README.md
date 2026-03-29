@@ -43,4 +43,5 @@ No modules.
 |------|-------------|
 | <a name="output_bucket_arn"></a> [bucket\_arn](#output\_bucket\_arn) | The ARN of the bucket |
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | The name of the bucket |
+| <a name="output_bucket_regional_domain_name"></a> [bucket\_regional\_domain\_name](#output\_bucket\_regional\_domain\_name) | The bucket region-specific domain name |
 <!-- END_TF_DOCS -->
