@@ -51,10 +51,8 @@ jobs:
                  
                  terraform init -backend=false
                  
-                 PLAN_CMD="terraform plan -var-file ../../account.tfvars -var-file ../env.tfvars"
-                 if [ -f "./overrides.tfvars" ]; then
-                   PLAN_CMD="$PLAN_CMD -var-file ./overrides.tfvars"
-                 fi
+                 # The overrides.tfvars file is now strictly governed and guaranteed to exist natively in all Caller modules.
+                 PLAN_CMD="terraform plan -var-file ../../account.tfvars -var-file ../env.tfvars -var-file ./overrides.tfvars"
                  
                  echo "Executing: $PLAN_CMD -out plan.out -no-color"
                  $PLAN_CMD -out plan.out -no-color || echo "Plan command exited with non-zero - Please configure your AWS Credentials in GitHub Secrets to completely resolve external data sources."
