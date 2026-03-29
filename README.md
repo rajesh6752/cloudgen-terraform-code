@@ -22,15 +22,16 @@ This repository utilizes a strict **two-tier Caller/Definition model** to maximi
 
 ---
 
-## 🔒 2. Variables & The 3-Tier Inheritance Matrix
-To secure variables globally while preventing code duplication, the Agent MUST structure variables in three discrete layers:
+## 🔒 2. Variables & The 4-Tier Inheritance Matrix
+To secure variables globally while preventing code duplication, the Agent MUST structure variables in four discrete layers:
 
 * **Layer 1:** `accounts/<environment_type>/account.tfvars` (Global Variables like Cost Center, Target AWS Region, baseline tags)
 * **Layer 2:** `accounts/<environment_type>/<env>/env.tfvars` (Environment-specific variables like Instance Types, KMS IDs, subnet definitions)
-* **Layer 3:** `<target_dir>/variables.tf` (Service-specific variables natively evaluated during module execution)
+* **Layer 3:** `accounts/<environment_type>/<env>/<service-name>/overrides.tfvars` (Service-specific overrides such as `additional_tags` or localized version pinning. This file **MUST always be natively generated** during module provisioning, even if left empty, to satisfy automated CI/CD execution pipeline dependencies).
+* **Layer 4:** `<target_dir>/variables.tf` (Service-specific variables natively evaluated during module execution)
 
 ### ⚠️ Execution Bound:
-If the agent defines a new variable inside an account's `main.tf`, the agent **must** map its default value or inject it cleanly into the hierarchical `env.tfvars`/`account.tfvars` layers so it is centrally managed.
+If the agent defines a new variable inside an account's `main.tf`, the agent **must** map its default value or inject it cleanly into the hierarchical `env.tfvars`/`account.tfvars` or `overrides.tfvars` layers so it is centrally managed.
 
 ---
 
