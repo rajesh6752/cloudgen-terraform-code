@@ -37,9 +37,9 @@ variable "data_volume_size" {
   default     = 50
 }
 
-variable "kms_key_id" {
+variable "kms_key_arn" {
   type        = string
-  description = "KMS Key ID for EBS volume encryption"
+  description = "KMS Key ARN for EBS volume encryption"
 }
 
 variable "ami_id" {
