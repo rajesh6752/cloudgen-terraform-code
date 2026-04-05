@@ -26,8 +26,6 @@ variable "vpc_name" {
   default     = "main-vpc"
 }
 
-
-
 variable "vpc_id" {
   type        = string
   description = "VPC ID for the environment"
@@ -45,4 +43,3 @@ variable "ami_id" {
   description = "AMI ID for the environment"
   default     = ""
 }
-

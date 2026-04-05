@@ -2,7 +2,7 @@ data "aws_kms_alias" "central_kms" {
   name = "alias/central-kms-dev"
 }
 
-module "app1_s3_bucket" {
+module "app1_data_s3_bucket" {
   source = "../../../../modules/s3"
 
   bucket_name = var.bucket_name
