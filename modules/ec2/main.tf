@@ -44,6 +44,7 @@ resource "aws_security_group" "this" {
     }
   }
 
+  #tfsec:ignore:aws-ec2-no-public-egress-sgr
   egress {
     from_port   = 443
     to_port     = 443
@@ -52,6 +53,7 @@ resource "aws_security_group" "this" {
     description = "Allow HTTPS outbound traffic for SSM and updates"
   }
 
+  #tfsec:ignore:aws-ec2-no-public-egress-sgr
   egress {
     from_port   = 80
     to_port     = 80

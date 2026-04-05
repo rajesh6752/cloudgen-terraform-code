@@ -46,3 +46,11 @@ variable "ami_id" {
   default     = ""
 }
 
+
+
+
+variable "account_id" {
+  type        = string
+  description = "AWS Account ID"
+}
+
