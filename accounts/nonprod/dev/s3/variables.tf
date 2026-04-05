@@ -25,11 +25,3 @@ variable "tags" {
   description = "Tags to apply to resources"
   default     = {}
 }
-
-
-
-variable "account_id" {
-  type        = string
-  description = "AWS Account ID"
-}
-
