@@ -4,19 +4,9 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "account_id" {
-  type        = string
-  description = "AWS Account ID"
-}
-
 variable "environment" {
   type        = string
   description = "Environment name"
-}
-
-variable "instance_type" {
-  type        = string
-  description = "EC2 instance type"
 }
 
 variable "bucket_name" {
