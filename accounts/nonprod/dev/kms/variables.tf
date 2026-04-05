@@ -15,11 +15,3 @@ variable "alias_name" {
   description = "The display name of the alias."
   default     = "alias/central-kms-dev"
 }
-
-
-
-variable "account_id" {
-  type        = string
-  description = "AWS Account ID"
-}
-
