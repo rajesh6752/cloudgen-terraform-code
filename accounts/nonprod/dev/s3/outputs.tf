@@ -54,3 +54,17 @@ output "app2_data_bucket_hosted_zone_id" {
   value       = module.app2_data_s3_bucket.hosted_zone_id
 }
 
+
+
+
+
+output "app_bucket_id" {
+  description = "The ID of the app S3 bucket"
+  value       = module.app_s3_bucket.bucket_id
+}
+
+output "app_bucket_arn" {
+  description = "The ARN of the app S3 bucket"
+  value       = module.app_s3_bucket.bucket_arn
+}
+
