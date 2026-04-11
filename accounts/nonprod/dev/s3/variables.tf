@@ -25,3 +25,17 @@ variable "is_public_tfstate_3c" {
   description = "Whether the tfstate-3c bucket should be public"
   default     = false
 }
+
+
+
+variable "bucket_name_app1_data" {
+  type        = string
+  description = "Name of the app1 data S3 bucket"
+}
+
+variable "is_public_app1_data" {
+  type        = bool
+  description = "Whether the app1 data bucket should be public"
+  default     = false
+}
+
