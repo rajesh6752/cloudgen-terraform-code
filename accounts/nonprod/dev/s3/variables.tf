@@ -39,3 +39,18 @@ variable "is_public_app1_data" {
   default     = false
 }
 
+
+
+
+
+variable "bucket_name_app2_data" {
+  type        = string
+  description = "Name of the app2 data S3 bucket"
+}
+
+variable "is_public_app2_data" {
+  type        = bool
+  description = "Whether the app2 data bucket should be public"
+  default     = false
+}
+
