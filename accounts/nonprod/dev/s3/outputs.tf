@@ -20,3 +20,17 @@ output "app1_data_bucket_arn" {
   value       = module.app1_data_bucket.bucket_arn
 }
 
+
+
+
+
+output "app2_data_bucket_id" {
+  description = "The ID of the app2 data S3 bucket"
+  value       = module.app2_data_bucket.bucket_id
+}
+
+output "app2_data_bucket_arn" {
+  description = "The ARN of the app2 data S3 bucket"
+  value       = module.app2_data_bucket.bucket_arn
+}
+
