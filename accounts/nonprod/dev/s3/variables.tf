@@ -9,33 +9,19 @@ variable "environment" {
   description = "Environment name"
 }
 
-variable "bucket_name" {
-  type        = string
-  description = "The name of the S3 bucket"
-}
-
-variable "is_public" {
-  type        = bool
-  description = "Whether the bucket should be public"
-  default     = false
-}
-
 variable "tags" {
   type        = map(string)
   description = "Tags to apply to resources"
   default     = {}
 }
 
-
-
-variable "bucket_name_app2" {
+variable "bucket_name_tfstate_3c" {
   type        = string
-  description = "The name of the second S3 bucket"
+  description = "Name of the tfstate-3c S3 bucket"
 }
 
-variable "is_public_app2" {
+variable "is_public_tfstate_3c" {
   type        = bool
-  description = "Whether the second bucket should be public"
+  description = "Whether the tfstate-3c bucket should be public"
   default     = false
 }
-
