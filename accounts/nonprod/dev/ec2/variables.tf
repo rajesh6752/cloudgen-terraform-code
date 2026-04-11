@@ -43,3 +43,11 @@ variable "ami_id" {
   description = "AMI ID for the environment"
   default     = ""
 }
+
+
+
+variable "app1_instance_name" {
+  type        = string
+  description = "Name of the app1 EC2 instance"
+}
+

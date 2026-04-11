@@ -40,3 +40,21 @@ output "api_server_security_group_id" {
   value       = module.api_server.security_group_id
 }
 
+
+
+
+output "app1_instance_id" {
+  description = "ID of the app1 EC2 instance"
+  value       = module.app1_ec2.instance_id
+}
+
+output "app1_instance_private_ip" {
+  description = "Private IP of the app1 EC2 instance"
+  value       = module.app1_ec2.private_ip
+}
+
+output "app1_security_group_id" {
+  description = "Security Group ID of the app1 EC2 instance"
+  value       = module.app1_ec2.security_group_id
+}
+
