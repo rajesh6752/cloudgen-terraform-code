@@ -25,3 +25,17 @@ variable "tags" {
   description = "Tags to apply to resources"
   default     = {}
 }
+
+
+
+variable "bucket_name_app2" {
+  type        = string
+  description = "The name of the second S3 bucket"
+}
+
+variable "is_public_app2" {
+  type        = bool
+  description = "Whether the second bucket should be public"
+  default     = false
+}
+
