@@ -1,4 +1,4 @@
-# Enterprise DevSecOps Terraform Monorepo
+# Enterprise DevSecOps Terraform Repo
 
 > **AGENT DIRECTIVE:** This file is the absolute source of truth for architectural engineering. Any AI agent (Planning, Writing, or Executing) operating within this repository **MUST** adhere strictly to the constraints, structures, and schemas defined below. Failure to align with these protocols will result in pipeline failure.
 
