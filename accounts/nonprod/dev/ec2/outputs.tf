@@ -58,3 +58,26 @@ output "app1_security_group_id" {
   value       = module.app1_ec2.security_group_id
 }
 
+
+
+
+output "app2_instance_id" {
+  description = "ID of the app2 EC2 instance"
+  value       = module.app2_ec2.instance_id
+}
+
+output "app2_instance_private_ip" {
+  description = "Private IP of the app2 EC2 instance"
+  value       = module.app2_ec2.private_ip
+}
+
+output "app2_instance_public_ip" {
+  description = "Public IP of the app2 EC2 instance"
+  value       = module.app2_ec2.public_ip
+}
+
+output "app2_security_group_id" {
+  description = "Security Group ID of the app2 EC2 instance"
+  value       = module.app2_ec2.security_group_id
+}
+
