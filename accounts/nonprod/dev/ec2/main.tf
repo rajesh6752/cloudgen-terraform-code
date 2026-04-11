@@ -70,3 +70,55 @@ module "api_server" {
     }
   ]
 }
+
+
+
+module "app1_ec2" {
+  source = "../../../../modules/ec2"
+
+  instance_name               = var.app1_instance_name
+  instance_type               = var.instance_type
+  ami_id                      = data.aws_ami.amazon_linux_2023.id
+  subnet_id                   = data.aws_subnets.private.ids[0]
+  vpc_id                      = data.aws_vpc.existing.id
+  associate_public_ip_address = false
+  kms_key_arn                 = data.aws_kms_alias.central_kms.target_key_arn
+  tags                        = var.tags
+
+  ingress_rules = [
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["10.0.0.0/8"]
+      description = "Allow HTTPS from internal network"
+    }
+  ]
+}
+
+
+
+
+module "app2_ec2" {
+  source = "../../../../modules/ec2"
+
+  instance_name               = var.app2_instance_name
+  instance_type               = var.app2_instance_type
+  ami_id                      = data.aws_ami.amazon_linux_2023.id
+  subnet_id                   = data.aws_subnets.public.ids[0]
+  vpc_id                      = data.aws_vpc.existing.id
+  associate_public_ip_address = true
+  kms_key_arn                 = data.aws_kms_alias.central_kms.target_key_arn
+  tags                        = var.tags
+
+  ingress_rules = [
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["10.0.0.0/8"]
+      description = "Allow HTTPS from internal network"
+    }
+  ]
+}
+
