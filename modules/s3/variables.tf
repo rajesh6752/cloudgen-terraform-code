@@ -1,21 +1,20 @@
 variable "bucket_name" {
   type        = string
-  description = "The name of the S3 bucket"
+  description = "Name of the S3 bucket"
 }
 
-variable "kms_key_arn" {
+variable "kms_master_key_id" {
   type        = string
-  description = "The ARN of the KMS key used for server-side encryption"
+  description = "The AWS KMS master key ID used for the SSE-KMS encryption"
 }
 
-variable "is_public" {
-  type        = bool
-  description = "Whether the bucket should be public"
-  default     = false
+variable "environment" {
+  type        = string
+  description = "Environment name"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "A map of tags to assign to the bucket"
+  description = "Tags to apply to resources"
   default     = {}
 }

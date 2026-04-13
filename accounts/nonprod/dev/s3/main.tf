@@ -1,37 +1,31 @@
-data "aws_kms_alias" "central_kms" {
-  name = "alias/central-kms-dev"
+terraform {
+  required_version = ">= 1.10.0"
+  backend "s3" {
+    bucket       = "terraform-state-nonprod-dev"
+    key          = "dev/s3/terraform.tfstate"
+    region       = "us-east-1"
+    use_lockfile = true
+  }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
 }
 
-module "tfstate_3c_bucket" {
+provider "aws" {
+  region = var.region
+}
+
+module "s3_bucket" {
   source = "../../../../modules/s3"
 
-  bucket_name = var.bucket_name_tfstate_3c
-  kms_key_arn = data.aws_kms_alias.central_kms.target_key_arn
-  is_public   = var.is_public_tfstate_3c
-  tags        = var.tags
+  bucket_name       = var.bucket_name
+  kms_master_key_id = var.kms_master_key_id
+  environment       = var.environment
+  tags = {
+    ManagedBy = "Terraform"
+    Project   = "app2"
+  }
 }
-
-
-
-module "app1_data_bucket" {
-  source = "../../../../modules/s3"
-
-  bucket_name = var.bucket_name_app1_data
-  kms_key_arn = data.aws_kms_alias.central_kms.target_key_arn
-  is_public   = var.is_public_app1_data
-  tags        = var.tags
-}
-
-
-
-
-
-module "app2_data_bucket" {
-  source = "../../../../modules/s3"
-
-  bucket_name = var.bucket_name_app2_data
-  kms_key_arn = data.aws_kms_alias.central_kms.target_key_arn
-  is_public   = var.is_public_app2_data
-  tags        = var.tags
-}
-
