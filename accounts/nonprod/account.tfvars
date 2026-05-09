@@ -1,2 +1,4 @@
-account_id = "123456789012"
-region     = "us-east-1"
+organization = "enterprise"
+default_tags = {
+  managed_by = "terraform"
+}
